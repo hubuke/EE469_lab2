@@ -81,10 +81,10 @@ module register_file (clk, A1, A2, A3, WD3, WE3, RD1, RD2, result_out, registers
             registers[30] <= registers[30];
             registers[31] <= registers[31];
         end
-        RD1 <= registers[A1];
-        RD2 <= registers[A2];
-
         if (registers[10] == 13) result_out <= 1;
         else result_out <= 0;
     end
+
+    assign RD1 = registers[A1];
+    assign RD2 = registers[A2];
 endmodule

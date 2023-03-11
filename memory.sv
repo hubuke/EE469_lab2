@@ -25,6 +25,9 @@ module memory #(parameter is_instruction = 0) (clk, A, WD, MemWrite, RD); // , m
             mem[A+2] <= WD[15:8];
             mem[A+3] <= WD[7:0];
         end
+    end
+
+    always_comb begin
         RD <= {mem[A], mem[A+1], mem[A+2], mem[A+3]};
     end
 endmodule
