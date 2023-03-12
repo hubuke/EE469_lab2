@@ -1,7 +1,8 @@
 `timescale 1ns/1ps
 
 module jump_or_not (zero, negative, overflow, carry, JumpE, BranchE, funct3E, jump_or_notE);
-    input logic zero, negative, overflow, carry, JumpE, BranchE, funct3E;
+    input logic zero, negative, overflow, carry, JumpE, BranchE;
+    input logic [2:0] funct3E;
     output logic jump_or_notE;
 
     always_comb begin

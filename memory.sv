@@ -30,6 +30,6 @@ module memory #(parameter is_instruction = 0) (clk, A, WD, MemWrite, RD); // , m
     end
 
     always_comb begin
-        RD <= {mem[A], mem[A+1], mem[A+2], mem[A+3]};
+        RD = {mem[A], mem[A+1], mem[A+2], mem[A+3]};
     end
 endmodule
