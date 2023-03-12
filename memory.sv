@@ -15,6 +15,8 @@ module memory #(parameter is_instruction = 0) (clk, A, WD, MemWrite, RD); // , m
     initial begin
         if (is_instruction == 1) begin
             $readmemh("test.mem", mem);
+        end else begin
+            $readmemh("data.mem", mem);
         end
     end
 

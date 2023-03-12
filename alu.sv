@@ -1,9 +1,9 @@
 `timescale 1ns / 1ps
 
 module alu (srca, srcb, alu_op, result, zero, negative, carryout, overflow);
-    input [31:0]        srca;
-    input [31:0]        srcb;
-    input [3:0]         alu_op;
+    input logic [31:0]        srca;
+    input logic [31:0]        srcb;
+    input logic [3:0]         alu_op;
 
     output reg [31:0]   result;
     output reg          zero, negative, carryout, overflow;
@@ -17,6 +17,7 @@ module alu (srca, srcb, alu_op, result, zero, negative, carryout, overflow);
         negative = 1'bx;
         overflow = 1'bx;
         temp_result = 33'bx;
+//        branch = 1'b0;
         
         case (alu_op)
             4'b0000: begin
