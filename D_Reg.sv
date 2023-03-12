@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module ID(clk, reset, EN, instrF, PCF, PCPlus4F, instrD, PCD, PCPlus4D);
+module D_Reg(clk, reset, EN, instrF, PCF, PCPlus4F, instrD, PCD, PCPlus4D);
     input logic clk, reset, EN;
     input logic [31:0] instrF, PCF, PCPlus4F;
     output logic [31:0] instrD, PCD, PCPlus4D;

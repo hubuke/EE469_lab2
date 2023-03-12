@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 
-module Execute (clk, reset, RD1D, RD2D, PCD, Rs1D, Rs2D, immD, PCPlus4D, RD1E, RD2E, PCE, Rs1E, Rs2E, RdE, immE, PCPlus4E,
-                RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchDm ALUControlD, ALUSrcD, RegWriteE, ResultSrcE, MemWriteE, 
+module E_Reg (clk, reset, RD1D, RD2D, PCD, Rs1D, Rs2D, immD, PCPlus4D, RD1E, RD2E, PCE, Rs1E, Rs2E, RdE, immE, PCPlus4E,
+                RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchD, ALUControlD, ALUSrcD, RegWriteE, ResultSrcE, MemWriteE, 
                 JumpE, BranchE, ALUControlE, ALUSrcE);
 
     input logic clk, reset;
