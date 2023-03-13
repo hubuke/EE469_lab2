@@ -9,7 +9,7 @@ module register_file (clk, A1, A2, A3, WD3, WE3, RD1, RD2, result_out, registers
     output logic result_out;
     output logic [31:0] reg_10;
 
-    output reg [31:0] registers [0:31];
+    reg [31:0] registers [0:31];
 
     localparam zero = 32'h00000000;
     assign registers[0] = zero;

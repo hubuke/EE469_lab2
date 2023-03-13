@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module riscv32_pipeline(clk, reset);
+module riscv32_pipeline(clk, reset, result_out, reg_10);
     input logic clk, reset;
 
     logic [31:0] pc_in;
@@ -51,9 +51,9 @@ module riscv32_pipeline(clk, reset);
 
 
     // output signals
-    logic result_out;
+    output logic result_out;
     logic [31:0] registers [31:0];
-    logic [31:0] reg_10;
+    output logic [31:0] reg_10;
 
     localparam pc_increment = 32'h00000004;
 
@@ -71,12 +71,12 @@ module riscv32_pipeline(clk, reset);
                 .RegWriteD, .ResultSrcD, .MemWriteD, .JumpD, .BranchD, .ALUControlD, .ALUSrcD, .RegWriteE, .ResultSrcE, .MemWriteE,
                 .JumpE, .BranchE, .ALUControlE, .ALUSrcE, .funct3D, .funct3E, .targetA_selD, .targetA_selE);
     mux4_1  scra_forward_mux (.out(SrcAE), .i0(RD1E), .i1(ResultW), .i2(ResultM), .i3(32'bx), .sel(ForwardAE));
-    mux4_1  srcb_forward_mux (.out(WriteDataE), .i0(RD2E), .i1(ResultW), .i2(ResultM), .i3(32'bx), .sel(ForwardBE)); 
+    mux4_1  srcb_forward_mux (.out(WriteDataE), .i0(RD2E), .i1(ResultW), .i2(ResultM), .i3(32'bx), .sel(ForwardBE));
     mux2_1  srcb_mux (.out(SrcBE), .i0(WriteDataE), .i1(immE), .sel(ALUSrcE));
     mux2_1  pce_mux (.out(targetA), .i0(PCE), .i1(SrcAE), .sel(targetA_selE));
     adder   pc_imm_adder (.A(targetA), .B(immE), .out(PCTargetE));
     alu alu0 (.srca(SrcAE), .srcb(SrcBE), .alu_op(ALUControlE), .result(ALUResultE), .zero, .negative, .carryout, .overflow);
-    M_Reg M_Reg0 (.clk, .reset, .RegWriteE, .ResultSrcE, .MemWriteE, .RegWriteM, .ResultSrcM, .MemWriteM, 
+    M_Reg M_Reg0 (.clk, .reset, .RegWriteE, .ResultSrcE, .MemWriteE, .RegWriteM, .ResultSrcM, .MemWriteM,
               .ALUResultE, .WriteDataE, .RdE, .PCPlus4E, .ALUResultM, .WriteDataM, .RdM, .PCPlus4M, .PCTargetE, .PCTargetM);
 
     mux4_1 result_mux_M (.out(ResultM), .i0(ALUResultM), .i1(32'bx), .i2(PCPlus4M), .i3(PCTargetM), .sel(ResultSrcM));
@@ -91,7 +91,7 @@ module riscv32_pipeline(clk, reset);
     control control0 (.opcode(opcode), .funct3(funct3D), .funct7(funct7D), .RegWriteD, .ResultSrcD, .MemWriteD, .JumpD, .BranchD, .ALUControlD, .ALUSrcD, .targetA_sel(targetA_selD));
 
     // hazard detection
-    hazard hazard0 (.Rs1D, .Rs2D, .RdE, .Rs1E, .Rs2E, .PCSrcE(jump_or_notE), .ResultSrcE, .RdM, .RegWriteM, .RdW, .RegWriteW, .StallF, .StallD, 
+    hazard hazard0 (.Rs1D, .Rs2D, .RdE, .Rs1E, .Rs2E, .PCSrcE(jump_or_notE), .ResultSrcE, .RdM, .RegWriteM, .RdW, .RegWriteW, .StallF, .StallD,
                     .FlushD, .FlushE, .ForwardAE, .ForwardBE);
 
 endmodule
