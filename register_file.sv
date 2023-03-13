@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module register_file (clk, A1, A2, A3, WD3, WE3, RD1, RD2, result_out, registers, reg_10);
+module register_file (clk, A1, A2, A3, WD3, WE3, RD1, RD2, result_out, reg_10);
     input logic clk;
     input logic [4:0] A1, A2, A3;
     input logic [31:0] WD3;
