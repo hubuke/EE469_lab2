@@ -24,7 +24,7 @@ module E_Reg (clk, reset, RD1D, RD2D, PCD, Rs1D, Rs2D, immD, PCPlus4D, RD1E, RD2
     output logic [3:0] ALUControlE;
     output logic ALUSrcE;
 
-    always_ff @(posedge clk or posedge reset) begin
+    always_ff @(posedge clk) begin
         if (reset) begin
             RD1E <= 0;
             RD2E <= 0;

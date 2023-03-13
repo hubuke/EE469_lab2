@@ -106,7 +106,7 @@ module control (opcode, funct3, funct7, RegWriteD, ResultSrcD, MemWriteD, JumpD,
             `OP: begin
                 RegWriteD = 1'b1;
                 ALUSrcD = 1'b0;
-                ResultSrcD = 2'b01;
+                ResultSrcD = 2'b00;
                 case (funct3)
                     3'b000: ALUControlD = 4'b0000; // add
                     3'b010: ALUControlD = 4'b1011; // slt

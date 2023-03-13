@@ -25,7 +25,7 @@ module riscv32_pipeline(clk, reset);
 
     logic [31:0] ALUResultE, ALUResultM, ALUResultW;
 
-    logic [31:0] ResultW;
+    logic [31:0] ResultM, ResultW;
 
     logic [31:0] ReadDataM, ReadDataW;
 
@@ -70,14 +70,17 @@ module riscv32_pipeline(clk, reset);
     E_Reg   E_Reg0 (.clk, .reset(reset | FlushE), .RD1D, .RD2D, .PCD, .Rs1D, .Rs2D, .immD, .PCPlus4D, .RD1E, .RD2E, .PCE, .Rs1E, .Rs2E, .RdD, .RdE, .immE, .PCPlus4E,
                 .RegWriteD, .ResultSrcD, .MemWriteD, .JumpD, .BranchD, .ALUControlD, .ALUSrcD, .RegWriteE, .ResultSrcE, .MemWriteE,
                 .JumpE, .BranchE, .ALUControlE, .ALUSrcE, .funct3D, .funct3E, .targetA_selD, .targetA_selE);
-    mux4_1  scra_forward_mux (.out(SrcAE), .i0(RD1E), .i1(ResultW), .i2(ALUResultM), .i3(32'bx), .sel(ForwardAE));
-    mux4_1  srcb_forward_mux (.out(WriteDataE), .i0(RD2E), .i1(ResultW), .i2(ALUResultM), .i3(32'bx), .sel(ForwardBE)); 
+    mux4_1  scra_forward_mux (.out(SrcAE), .i0(RD1E), .i1(ResultW), .i2(ResultM), .i3(32'bx), .sel(ForwardAE));
+    mux4_1  srcb_forward_mux (.out(WriteDataE), .i0(RD2E), .i1(ResultW), .i2(ResultM), .i3(32'bx), .sel(ForwardBE)); 
     mux2_1  srcb_mux (.out(SrcBE), .i0(WriteDataE), .i1(immE), .sel(ALUSrcE));
     mux2_1  pce_mux (.out(targetA), .i0(PCE), .i1(SrcAE), .sel(targetA_selE));
     adder   pc_imm_adder (.A(targetA), .B(immE), .out(PCTargetE));
     alu alu0 (.srca(SrcAE), .srcb(SrcBE), .alu_op(ALUControlE), .result(ALUResultE), .zero, .negative, .carryout, .overflow);
     M_Reg M_Reg0 (.clk, .reset, .RegWriteE, .ResultSrcE, .MemWriteE, .RegWriteM, .ResultSrcM, .MemWriteM, 
               .ALUResultE, .WriteDataE, .RdE, .PCPlus4E, .ALUResultM, .WriteDataM, .RdM, .PCPlus4M, .PCTargetE, .PCTargetM);
+
+    mux4_1 result_mux_M (.out(ResultM), .i0(ALUResultM), .i1(32'bx), .i2(PCPlus4M), .i3(PCTargetM), .sel(ResultSrcM));
+
     memory #(.is_instruction(0)) data_mem0 (.clk, .A(ALUResultM), .WD(WriteDataM), .MemWrite(MemWriteM), .RD(ReadDataM));
     W_Reg W_Reg0 (.clk, .reset, .RegWriteM, .ResultSrcM, .RegWriteW, .ResultSrcW, .ALUResultM,
                 .ReadDataM, .RdM, .PCPlus4M, .ALUResultW, .ReadDataW, .RdW, .PCPlus4W, .PCTargetM, .PCTargetW);
@@ -85,7 +88,7 @@ module riscv32_pipeline(clk, reset);
     mux4_1 result_mux (.out(ResultW), .i0(ALUResultW), .i1(ReadDataW), .i2(PCPlus4W), .i3(PCTargetW), .sel(ResultSrcW));
 
     // control
-    control control0 (.opcode(opcode), .funct3(funct3D), .funct7(funct7D), .RegWriteD, .ResultSrcD, .MemWriteD, .JumpD, .BranchD, .ALUControlD, .ALUSrcD, .targetA_sel);
+    control control0 (.opcode(opcode), .funct3(funct3D), .funct7(funct7D), .RegWriteD, .ResultSrcD, .MemWriteD, .JumpD, .BranchD, .ALUControlD, .ALUSrcD, .targetA_sel(targetA_selD));
 
     // hazard detection
     hazard hazard0 (.Rs1D, .Rs2D, .RdE, .Rs1E, .Rs2E, .PCSrcE(jump_or_notE), .ResultSrcE, .RdM, .RegWriteM, .RdW, .RegWriteW, .StallF, .StallD, 
@@ -98,7 +101,7 @@ endmodule
 module rv32_tb ();
     logic clk, reset;
 
-    parameter CLOCK_PERIOD = 10;
+    parameter CLOCK_PERIOD = 20;
     // clock
     initial begin
         clk <= 0;
