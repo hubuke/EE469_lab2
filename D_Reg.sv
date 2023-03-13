@@ -10,7 +10,7 @@ module D_Reg(clk, reset, EN, instrF, PCF, PCPlus4F, instrD, PCD, PCPlus4D);
             instrD <= 32'h00000000;
             PCD <= 32'h00000000;
             PCPlus4D <= 32'h00000000;
-        end else if(EN) begin
+        end else if(!EN) begin
             instrD <= instrF;
             PCD <= PCF;
             PCPlus4D <= PCPlus4F;

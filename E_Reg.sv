@@ -1,12 +1,12 @@
 `timescale 1ns/1ps
 
-module E_Reg (clk, reset, RD1D, RD2D, PCD, Rs1D, Rs2D, immD, PCPlus4D, RD1E, RD2E, PCE, Rs1E, Rs2E, RdE, immE, PCPlus4E,
+module E_Reg (clk, reset, RD1D, RD2D, PCD, Rs1D, Rs2D, immD, PCPlus4D, RD1E, RD2E, PCE, Rs1E, Rs2E, RdD, RdE, immE, PCPlus4E,
                 RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchD, ALUControlD, ALUSrcD, RegWriteE, ResultSrcE, MemWriteE, 
                 JumpE, BranchE, ALUControlE, ALUSrcE, funct3D, funct3E);
 
     input logic clk, reset;
     input logic [31:0] RD1D, RD2D, PCD, immD, PCPlus4D;
-    input logic [4:0] Rs1D, Rs2D;
+    input logic [4:0] Rs1D, Rs2D, RdD;
     output logic [31:0] RD1E, RD2E, PCE, immE, PCPlus4E;
     output logic [4:0] Rs1E, Rs2E, RdE;
     input logic [2:0] funct3D;
@@ -47,7 +47,7 @@ module E_Reg (clk, reset, RD1D, RD2D, PCD, Rs1D, Rs2D, immD, PCPlus4D, RD1E, RD2
             PCE <= PCD;
             Rs1E <= Rs1D;
             Rs2E <= Rs2D;
-            RdE <= Rs2D;
+            RdE <= RdD;
             immE <= immD;
             PCPlus4E <= PCPlus4D;
             RegWriteE <= RegWriteD;

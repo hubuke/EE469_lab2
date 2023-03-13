@@ -15,7 +15,7 @@ module register_file (clk, A1, A2, A3, WD3, WE3, RD1, RD2, result_out, registers
     assign registers[0] = zero;
     assign reg_10 = registers[10];
 
-    always_ff @(posedge clk) begin
+    always_ff @(negedge clk) begin
         if (WE3) begin
             if (A3 == 1) registers[1] <= WD3;
             if (A3 == 2) registers[2] <= WD3;
@@ -84,6 +84,12 @@ module register_file (clk, A1, A2, A3, WD3, WE3, RD1, RD2, result_out, registers
         if (registers[10] == 13) result_out <= 1;
         else result_out <= 0;
     end
+
+    // always_ff @(negedge clk) begin
+    //     // read data
+    //     RD1 <= registers[A1];
+    //     RD2 <= registers[A2];
+    // end
 
     assign RD1 = registers[A1];
     assign RD2 = registers[A2];

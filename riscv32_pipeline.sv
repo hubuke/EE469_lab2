@@ -64,10 +64,10 @@ module riscv32_pipeline(clk, reset);
     mux2_1  pc_mux (.out(pc_in), .i0(PCPlus4F), .i1(PCTargetE), .sel(jump_or_notE));
 
     memory #(.is_instruction(1)) instr_mem0 (.clk, .A(PCF), .WD(32'bx), .MemWrite(1'b0), .RD(instrF));
-    D_Reg   D_Reg0 (.clk, .reset(reset | FlushD), .EN(StallD), .instrF, .PCF, .PCPlus4F, .instrD(instrF), .PCD, .PCPlus4D);
+    D_Reg   D_Reg0 (.clk, .reset(reset | FlushD), .EN(StallD), .instrF, .PCF, .PCPlus4F, .instrD, .PCD, .PCPlus4D);
     instr_decoder decoder0 (.instruction(instrD), .opcode, .rd(RdD), .rs1(Rs1D), .rs2(Rs2D), .funct3(funct3D), .funct7(funct7D), .imm(immD));
     register_file reg_file0 (.clk, .A1(Rs1D), .A2(Rs2D), .A3(RdW), .WD3(ResultW), .WE3(RegWriteW), .RD1(RD1D), .RD2(RD2D), .result_out, .registers, .reg_10);
-    E_Reg   E_Reg0 (.clk, .reset(reset | FlushE), .RD1D, .RD2D, .PCD, .Rs1D, .Rs2D, .immD, .PCPlus4D, .RD1E, .RD2E, .PCE, .Rs1E, .Rs2E, .RdE, .immE, .PCPlus4E,
+    E_Reg   E_Reg0 (.clk, .reset(reset | FlushE), .RD1D, .RD2D, .PCD, .Rs1D, .Rs2D, .immD, .PCPlus4D, .RD1E, .RD2E, .PCE, .Rs1E, .Rs2E, .RdD, .RdE, .immE, .PCPlus4E,
                 .RegWriteD, .ResultSrcD, .MemWriteD, .JumpD, .BranchD, .ALUControlD, .ALUSrcD, .RegWriteE, .ResultSrcE, .MemWriteE,
                 .JumpE, .BranchE, .ALUControlE, .ALUSrcE, .funct3D, .funct3E);
     mux4_1  scra_forward_mux (.out(SrcAE), .i0(RD1E), .i1(ResultW), .i2(ALUResultM), .i3(32'bx), .sel(ForwardAE));
@@ -110,7 +110,6 @@ module rv32_tb ();
     riscv32_pipeline dut (clk, reset);
 
     initial begin
-        reset <=1; @(posedge clk);
         reset <=1; @(posedge clk);
         reset <=0; @(posedge clk);
         reset <=0; @(posedge clk);

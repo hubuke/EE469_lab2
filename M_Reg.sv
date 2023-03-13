@@ -1,8 +1,8 @@
 `timescale 1ns/1ps
 
-module M_Reg (clk, reset, EN, RegWriteE, ResultSrcE, MemWriteE, RegWriteM, ResultSrcM, MemWriteM, 
+module M_Reg (clk, reset, RegWriteE, ResultSrcE, MemWriteE, RegWriteM, ResultSrcM, MemWriteM, 
               ALUResultE, WriteDataE, RdE, PCPlus4E, ALUResultM, WriteDataM, RdM, PCPlus4M, PCTargetE, PCTargetM);
-    input logic clk, reset, EN;
+    input logic clk, reset;
     input logic RegWriteE, MemWriteE;
     input logic [1:0] ResultSrcE;
     input logic [31:0] ALUResultE, WriteDataE, PCPlus4E, PCTargetE;
@@ -23,7 +23,7 @@ module M_Reg (clk, reset, EN, RegWriteE, ResultSrcE, MemWriteE, RegWriteM, Resul
             RdM <= 0;
             PCPlus4M <= 0;
             PCTargetM <= 0;
-        end else if (EN) begin
+        end else begin
             RegWriteM <= RegWriteE;
             ResultSrcM <= ResultSrcE;
             MemWriteM <= MemWriteE;
@@ -32,15 +32,6 @@ module M_Reg (clk, reset, EN, RegWriteE, ResultSrcE, MemWriteE, RegWriteM, Resul
             RdM <= RdE;
             PCPlus4M <= PCPlus4E;
             PCTargetM <= PCTargetE;
-        end else begin
-            RegWriteM <= RegWriteM;
-            ResultSrcM <= ResultSrcM;
-            MemWriteM <= MemWriteM;
-            ALUResultM <= ALUResultM;
-            WriteDataM <= WriteDataM;
-            RdM <= RdM;
-            PCPlus4M <= PCPlus4M;
-            PCTargetM <= PCTargetM;
         end
     end
 endmodule

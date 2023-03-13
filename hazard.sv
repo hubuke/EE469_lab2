@@ -35,7 +35,7 @@ module hazard (Rs1D, Rs2D, RdE, Rs1E, Rs2E, PCSrcE, ResultSrcE, RdM, RegWriteM, 
             ForwardBE = 2'b00;
         end
 
-        lwStall = (ResultSrcE == 2'b10) & ((Rs1D == RdE) | (Rs2D == RdE));
+        lwStall = (ResultSrcE == 2'b01) & ((Rs1D == RdE) | (Rs2D == RdE));
         StallF = lwStall;
         StallD = lwStall;
 
