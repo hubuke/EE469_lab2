@@ -2,7 +2,7 @@
 
 module E_Reg (clk, reset, RD1D, RD2D, PCD, Rs1D, Rs2D, immD, PCPlus4D, RD1E, RD2E, PCE, Rs1E, Rs2E, RdD, RdE, immE, PCPlus4E,
                 RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchD, ALUControlD, ALUSrcD, RegWriteE, ResultSrcE, MemWriteE, 
-                JumpE, BranchE, ALUControlE, ALUSrcE, funct3D, funct3E);
+                JumpE, BranchE, ALUControlE, ALUSrcE, funct3D, funct3E, targetA_selD, targetA_selE);
 
     input logic clk, reset;
     input logic [31:0] RD1D, RD2D, PCD, immD, PCPlus4D;
@@ -11,6 +11,8 @@ module E_Reg (clk, reset, RD1D, RD2D, PCD, Rs1D, Rs2D, immD, PCPlus4D, RD1E, RD2
     output logic [4:0] Rs1E, Rs2E, RdE;
     input logic [2:0] funct3D;
     output logic [2:0] funct3E;
+    input logic targetA_selD;
+    output logic targetA_selE;
 
     input logic RegWriteD, MemWriteD, JumpD, BranchD;
     input logic [1:0] ResultSrcD;
@@ -40,6 +42,7 @@ module E_Reg (clk, reset, RD1D, RD2D, PCD, Rs1D, Rs2D, immD, PCPlus4D, RD1E, RD2
             ALUControlE <= 0;
             ALUSrcE <= 0;
             funct3E <= 0;
+            targetA_selE <= 0;
         end
         else begin
             RD1E <= RD1D;
@@ -58,6 +61,7 @@ module E_Reg (clk, reset, RD1D, RD2D, PCD, Rs1D, Rs2D, immD, PCPlus4D, RD1E, RD2
             ALUControlE <= ALUControlD;
             ALUSrcE <= ALUSrcD;
             funct3E <= funct3D;
+            targetA_selE <= targetA_selD;
         end
     end
 

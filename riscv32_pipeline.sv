@@ -42,7 +42,7 @@ module riscv32_pipeline(clk, reset);
     logic BranchD, BranchE;
     logic [3:0] ALUControlD, ALUControlE;
     logic ALUSrcD, ALUSrcE;
-    logic targetA_sel;
+    logic targetA_selD, targetA_selE;
 
     // hazard signals
     logic StallF, StallD;
@@ -69,11 +69,11 @@ module riscv32_pipeline(clk, reset);
     register_file reg_file0 (.clk, .A1(Rs1D), .A2(Rs2D), .A3(RdW), .WD3(ResultW), .WE3(RegWriteW), .RD1(RD1D), .RD2(RD2D), .result_out, .registers, .reg_10);
     E_Reg   E_Reg0 (.clk, .reset(reset | FlushE), .RD1D, .RD2D, .PCD, .Rs1D, .Rs2D, .immD, .PCPlus4D, .RD1E, .RD2E, .PCE, .Rs1E, .Rs2E, .RdD, .RdE, .immE, .PCPlus4E,
                 .RegWriteD, .ResultSrcD, .MemWriteD, .JumpD, .BranchD, .ALUControlD, .ALUSrcD, .RegWriteE, .ResultSrcE, .MemWriteE,
-                .JumpE, .BranchE, .ALUControlE, .ALUSrcE, .funct3D, .funct3E);
+                .JumpE, .BranchE, .ALUControlE, .ALUSrcE, .funct3D, .funct3E, .targetA_selD, .targetA_selE);
     mux4_1  scra_forward_mux (.out(SrcAE), .i0(RD1E), .i1(ResultW), .i2(ALUResultM), .i3(32'bx), .sel(ForwardAE));
     mux4_1  srcb_forward_mux (.out(WriteDataE), .i0(RD2E), .i1(ResultW), .i2(ALUResultM), .i3(32'bx), .sel(ForwardBE)); 
     mux2_1  srcb_mux (.out(SrcBE), .i0(WriteDataE), .i1(immE), .sel(ALUSrcE));
-    mux2_1  pce_mux (.out(targetA), .i0(PCE), .i1(SrcAE), .sel(targetA_sel));
+    mux2_1  pce_mux (.out(targetA), .i0(PCE), .i1(SrcAE), .sel(targetA_selE));
     adder   pc_imm_adder (.A(targetA), .B(immE), .out(PCTargetE));
     alu alu0 (.srca(SrcAE), .srcb(SrcBE), .alu_op(ALUControlE), .result(ALUResultE), .zero, .negative, .carryout, .overflow);
     M_Reg M_Reg0 (.clk, .reset, .RegWriteE, .ResultSrcE, .MemWriteE, .RegWriteM, .ResultSrcM, .MemWriteM, 

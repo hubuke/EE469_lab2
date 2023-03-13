@@ -21,6 +21,7 @@ module W_Reg (clk, reset, RegWriteM, ResultSrcM, RegWriteW, ResultSrcW, ALUResul
             ReadDataW <= 0;
             RdW <= 0;
             PCPlus4W <= 0;
+            PCTargetW <= 0;
         end else begin
             RegWriteW <= RegWriteM;
             ResultSrcW <= ResultSrcM;
@@ -28,6 +29,7 @@ module W_Reg (clk, reset, RegWriteM, ResultSrcM, RegWriteW, ResultSrcW, ALUResul
             ReadDataW <= ReadDataM;
             RdW <= RdM;
             PCPlus4W <= PCPlus4M;
+            PCTargetW <= PCTargetM;
         end
     end
 endmodule
