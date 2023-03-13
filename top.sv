@@ -7,18 +7,17 @@ module top(CLK100MHZ, SW, LED);
 
     logic         [31:0]        divided_clocks, reg_10;
     logic                       result_out;
-    logic         [31:0]        pc_out;
+    logic         [31:0]        mem_800;
 
     parameter i = 5;
 
     clock_divider clk_divider (.clock(CLK100MHZ), .reset(SW[15]), .divided_clocks(divided_clocks));
 
-    riscv32_pipeline cpu (.clk(divided_clocks[i] & !result_out), .reset(SW[0]), .result_out(result_out), .reg_10);
+    riscv32_pipeline cpu (.clk(divided_clocks[i] & !result_out), .reset(SW[0]), .result_out(result_out), .reg_10, .mem_800);
 
     assign LED[0] = result_out;
     assign LED[1] = divided_clocks[i];
 
     assign LED[15:12] = reg_10[3:0]; // 4 LSBs of reg_10
-    assign LED[11:8] = pc_out[7:4]; // 4 MSBs of reg_10
-    assign LED[7:6] = pc_out[3:2]; // 4 LSBs of pc_out
+    assign LED[11:8] = mem_800[3:0]; // 4 MSBs of reg_10
 endmodule

@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module riscv32_pipeline(clk, reset, result_out, reg_10);
+module riscv32_pipeline(clk, reset, result_out, reg_10, mem_800);
     input logic clk, reset;
 
     logic [31:0] pc_in;
@@ -55,6 +55,8 @@ module riscv32_pipeline(clk, reset, result_out, reg_10);
     logic [31:0] registers [31:0];
     output logic [31:0] reg_10;
 
+    output logic [31:0] mem_800;
+
     localparam pc_increment = 32'h00000004;
 
     // datapath
@@ -81,7 +83,7 @@ module riscv32_pipeline(clk, reset, result_out, reg_10);
 
     mux4_1 result_mux_M (.out(ResultM), .i0(ALUResultM), .i1(32'bx), .i2(PCPlus4M), .i3(PCTargetM), .sel(ResultSrcM));
 
-    memory #(.is_instruction(0)) data_mem0 (.clk, .A(ALUResultM), .WD(WriteDataM), .MemWrite(MemWriteM), .RD(ReadDataM));
+    memory #(.is_instruction(0)) data_mem0 (.clk, .A(ALUResultM), .WD(WriteDataM), .MemWrite(MemWriteM), .RD(ReadDataM), .mem_800);
     W_Reg W_Reg0 (.clk, .reset, .RegWriteM, .ResultSrcM, .RegWriteW, .ResultSrcW, .ALUResultM,
                 .ReadDataM, .RdM, .PCPlus4M, .ALUResultW, .ReadDataW, .RdW, .PCPlus4W, .PCTargetM, .PCTargetW);
 

@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module memory #(parameter is_instruction = 0) (clk, A, WD, MemWrite, RD); // , mem0, mem1, mem2, mem3
+module memory #(parameter is_instruction = 0) (clk, A, WD, MemWrite, RD, mem_800); // , mem0, mem1, mem2, mem3
     input logic clk;
     input logic [31:0] A; // 32-bit address
     input logic [31:0] WD;
@@ -11,6 +11,10 @@ module memory #(parameter is_instruction = 0) (clk, A, WD, MemWrite, RD); // , m
     localparam zero_byte = 8'b0;
     
     reg [7:0] mem [0:(mem_size/4 - 1)]; // LSByte
+
+    output logic [31:0] mem_800;
+
+    assign mem_800 = {mem[800], mem[801], mem[802], mem[803]};
 
     initial begin
         if (is_instruction == 1) begin
