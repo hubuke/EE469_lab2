@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 
-module pc #(reset_pc = 32'h00000000) (clk, reset, pc_in, pc_out);
-    input logic clk, reset;
+module pc #(reset_pc = 32'h00000000) (clk, reset, pc_in, pc_out, EN);
+    input logic clk, reset, EN;
     input logic [31:0] pc_in;
     output logic [31:0] pc_out;
 
@@ -9,7 +9,8 @@ module pc #(reset_pc = 32'h00000000) (clk, reset, pc_in, pc_out);
         if (reset) begin
             pc_out <= reset_pc;
         end else begin
-            pc_out <= pc_in;
+            if (!EN) pc_out <= pc_in;
+            else pc_out <= pc_out;
         end
     end
 endmodule

@@ -41,7 +41,7 @@ module E_Reg (clk, reset, RD1D, RD2D, PCD, Rs1D, Rs2D, immD, PCPlus4D, RD1E, RD2
             ALUSrcE <= 0;
             funct3E <= 0;
         end
-        else begin
+        else if (EN) begin
             RD1E <= RD1D;
             RD2E <= RD2D;
             PCE <= PCD;
@@ -59,6 +59,23 @@ module E_Reg (clk, reset, RD1D, RD2D, PCD, Rs1D, Rs2D, immD, PCPlus4D, RD1E, RD2
             ALUSrcE <= ALUSrcD;
             funct3E <= funct3D;
         end
+        else begin
+            RD1E <= RD1E;
+            RD2E <= RD2E;
+            PCE <= PCE;
+            Rs1E <= Rs1E;
+            Rs2E <= Rs2E;
+            RdE <= RdE;
+            immE <= immE;
+            PCPlus4E <= PCPlus4E;
+            RegWriteE <= RegWriteE;
+            ResultSrcE <= ResultSrcE;
+            MemWriteE <= MemWriteE;
+            JumpE <= JumpE;
+            BranchE <= BranchE;
+            ALUControlE <= ALUControlE;
+            ALUSrcE <= ALUSrcE;
+            funct3E <= funct3E;
+        end
     end
-
 endmodule

@@ -58,7 +58,7 @@ module riscv32_pipeline(clk, reset);
     localparam pc_increment = 32'h00000004;
 
     // datapath
-    pc      pc0 (.clk, .reset, .pc_in, .pc_out(PCF));
+    pc      pc0 (.clk, .reset, .pc_in, .pc_out(PCF), .EN(StallF));
     adder   pc_adder0 (.A(PCF), .B(pc_increment), .out(PCPlus4F));
     jump_or_not jump_or_not0 (.zero, .negative, .overflow, .carry(carryout), .JumpE, .BranchE, .funct3E, .jump_or_notE);
     mux2_1  pc_mux (.out(pc_in), .i0(PCPlus4F), .i1(PCTargetE), .sel(jump_or_notE));
