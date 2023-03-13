@@ -1,22 +1,15 @@
 `timescale 1ns/1ps
 
-module pc #(reset_pc = 32'h00000000) (clk, reset, pc_in, pc_out, state);
+module pc #(reset_pc = 32'h00000000) (clk, reset, pc_in, pc_out);
     input logic clk, reset;
     input logic [31:0] pc_in;
     output logic [31:0] pc_out;
-    output logic [2:0] state;
 
     always_ff @(posedge clk) begin
         if (reset) begin
             pc_out <= reset_pc;
-            state <= 3'b000;
         end else begin
-            if (state == 3'b100) begin
-                pc_out <= pc_in;
-                state <= 3'b000;
-            end else begin
-                state <= state + 1;
-            end
+            pc_out <= pc_in;
         end
     end
 endmodule

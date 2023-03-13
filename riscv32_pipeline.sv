@@ -95,31 +95,31 @@ module riscv32_pipeline(clk, reset);
 
 endmodule
 
-// `timescale 1ns / 1ps
+`timescale 1ns / 1ps
 
-// module rv32_tb ();
-//     logic clk, reset;
+module rv32_tb ();
+    logic clk, reset;
 
-//     parameter CLOCK_PERIOD = 10;
-//     // clock
-//     initial begin
-//         clk <= 0;
-//         forever begin
-//             #(CLOCK_PERIOD) clk <= ~clk;
-//         end
-//     end
+    parameter CLOCK_PERIOD = 10;
+    // clock
+    initial begin
+        clk <= 0;
+        forever begin
+            #(CLOCK_PERIOD) clk <= ~clk;
+        end
+    end
 
-//     riscv32_pipeline dut (clk, reset);
+    riscv32_pipeline dut (clk, reset);
 
-//     initial begin
-//         reset <=1; @(posedge clk);
-//         reset <=1; @(posedge clk);
-//         reset <=0; @(posedge clk);
-//         reset <=0; @(posedge clk);
+    initial begin
+        reset <=1; @(posedge clk);
+        reset <=1; @(posedge clk);
+        reset <=0; @(posedge clk);
+        reset <=0; @(posedge clk);
 
-//         for (int i = 0; i < 10000; i = i + 1) @(posedge clk);
-//         $stop;
-//     end
+        for (int i = 0; i < 10000; i = i + 1) @(posedge clk);
+        $stop;
+    end
 
 
-// endmodule
+endmodule
